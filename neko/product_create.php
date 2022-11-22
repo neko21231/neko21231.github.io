@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML>
 <html>
 
@@ -22,36 +21,9 @@
 
 <body>
 
-    <nav class="navbar navbar-dark bg-info fixed-top ">
-        <div class="container-fluid">
-            <a class="navbar-brand " href="#">neko Shop</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="offcanvas offcanvas-end text-bg-info " tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">neko Shop</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 ">
-                        <li class="nav-item">
-                            <a class="nav-link " href="Home.php">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="product_create.php">Create Product</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " href="contact_us.php">Contact Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " href="Create_Customer.php">Create Customer</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php
+    include 'menu.php'
+        ?>
 
     <!-- container -->
     <div class="container mt-5 p-5">
@@ -78,9 +50,6 @@
                     $name = htmlspecialchars(strip_tags($_POST['name']));
                 }
                 if (empty($_POST["description"])) {
-                    $desErr = "Description is required *";
-                    $flag = true;
-                } else {
                     $description = htmlspecialchars(strip_tags($_POST['description']));
                 }
                 if (empty($_POST["price"])) {
@@ -89,15 +58,12 @@
                 } else {
                     $price = htmlspecialchars(strip_tags($_POST['price']));
                 }
-                if (empty($_POST["promotion_price"])) {
-                    $proErr = "Promotion price is required *";
+                if (($_POST["promotion_price"]) > ($_POST['price'])) {
+                    $proErr = "Promotion price should be cheaper than original price *";
                     $flag = true;
                 } else {
                     $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
-                    if (($_POST["promotion_price"]) > ($_POST['price'])) {
-                        $proErr = "Promotion price should be cheaper than original price *";
-                        $flag = true;
-                    }
+
                 }
                 if (empty($_POST["manufacture_date"])) {
                     $manuErr = "Manufacture date is required *";
@@ -132,7 +98,7 @@
                     $created = date('Y-m-d H:i:s');
                     $stmt->bindParam(':created', $created);
                     // Execute the query
-
+        
                     if ($stmt->execute()) {
                         echo "<div class='alert alert-success'>Record was saved.</div>";
                     } else {
@@ -154,45 +120,79 @@
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Name</td>
-                    <td><span class="error"><?php echo $nameErr; ?></span>
-                        <input type='text' name='name' class='form-control' />
+                    <td><span class="error">
+                            <?php echo $nameErr; ?>
+                        </span>
+                        <input type='text' name='name' class='form-control' value='<?php
+                        if (isset($_POST['name'])) {
+                            echo $_POST['name'];
+                        }
+                        ?>' />
                     </td>
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td><span class="error"><?php echo $desErr; ?></span>
-                        <textarea name='description' class='form-control'></textarea>
+                    <td><span class="error">
+                            <?php echo $desErr; ?>
+                        </span>
+                        <textarea name='description' class='form-control'><?php
+                        if (isset($_POST['description'])) {
+                            echo $_POST['description'];
+                        }
+                        ?></textarea>
                     </td>
                 </tr>
                 <tr>
                     <td>Price</td>
-                    <td><span class="error"><?php echo $priErr; ?></span>
-                        <input type='text' name='price' class='form-control' />
+                    <td><span class="error">
+                            <?php echo $priErr; ?>
+                        </span>
+                        <input type='text' name='price' class='form-control' value='<?php
+                        if (isset($_POST['price'])) {
+                            echo $_POST['price'];
+                        }
+                        ?> ' />
                     </td>
                 </tr>
                 <tr>
                     <td>Promotion Price</td>
-                    <td><span class="error"><?php echo $proErr; ?></span>
-                        <input type='text' name='promotion_price' class='form-control' />
+                    <td><span class="error">
+                            <?php echo $proErr; ?>
+                        </span>
+                        <input type='text' name='promotion_price' class='form-control' value='<?php
+                        if (isset($_POST['promotion_price'])) {
+                            echo $_POST['promotion_price'];
+                        }
+                        ?> ' />
                     </td>
                 </tr>
                 <tr>
                     <td>Manufacture Date</td>
-                    <td><span class="error"><?php echo $manuErr; ?></span>
-                        <input type='date' name='manufacture_date' class='form-control' />
+                    <td><span class="error">
+                            <?php echo $manuErr; ?>
+                        </span>
+                        <input type='date' name='manufacture_date' class='form-control' value='<?php
+                        if (isset($_POST['manufacture_price'])) {
+                            echo $_POST['manufacture_price'];
+                        } ?>' />
                     </td>
                 </tr>
                 <tr>
                     <td>Expire Date</td>
-                    <td><span class="error"><?php echo $exErr; ?></span>
-                        <input type='date' name='expire_date' class='form-control' />
+                    <td><span class="error">
+                            <?php echo $exErr; ?>
+                        </span>
+                        <input type='date' name='expire_date' class='form-control' value='<?php
+                        if (isset($_POST['expire_date'])) {
+                            echo $_POST['expire_date'];
+                        } ?>' />
                     </td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>
                         <input type='submit' value='Save' class='btn btn-success' />
-                        <a href='index.php' class='btn btn-danger'>Back to read products</a>
+                        <a href='product_read.php' class='btn btn-danger'>Back to read products</a>
                     </td>
                 </tr>
             </table>
@@ -211,4 +211,3 @@
 <grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration>
 
 </html>
-

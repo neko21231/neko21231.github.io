@@ -21,36 +21,9 @@
 
 <body>
 
-    <nav class="navbar navbar-dark bg-info fixed-top ">
-        <div class="container-fluid">
-            <a class="navbar-brand " href="#">neko Shop</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="offcanvas offcanvas-end text-bg-info " tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">neko Shop</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 ">
-                        <li class="nav-item">
-                            <a class="nav-link " href="Home.php">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="product_create.php">Create Product</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " href="contact_us.php">Contact Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " href="Create_Customer.php">Create Customer</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
+<?php
+include 'menu.php'
+?>
 
     <!-- container -->
     <div class="container mt-5 p-5">
@@ -86,9 +59,21 @@
                     $passErr = "Password is required *";
                     $flag = true;
                 } else {
-                    $password = htmlspecialchars(strip_tags($_POST['password']));
+                    $password = md5($_POST['password']);
                     
                        
+                }
+                if (empty($_POST["confirm_password"])) {
+                    $passErr = "Please Confirm Your Password  *";
+                    $flag = true;
+                }else if ($_POST["password"] == $_POST["confirm_password"]) {
+                    // success!
+                 
+                    $password = md5($_POST['password']);
+
+                } else{
+                    $passErr = "Please make sure your password are match.  *";
+                    $flag = true;
                 }
                 
                 if (empty($_POST["first_name"])) {
@@ -114,7 +99,7 @@
                     $dobErr = "date of birth is required *";
                     $flag = true;
                 } else {
-                    $date_of_birth = htmlspecialchars(strip_tags($_POST['date_of_birth']));
+                    $date_of_birth = ($_POST['date_of_birth']);
                   
                 }
 
@@ -163,51 +148,81 @@
                 <tr>
                     <td>Username</td>
                     <td><span class="error"> <?php echo $nameErr; ?></span>
-                        <input type='text' name='username' minlength="6" class='form-control' />
+                        <input type='text' name='username' minlength="6" class='form-control' value='<?php 
+                       if(isset($_POST['username'])){
+                        echo $_POST['username'];
+                       } 
+                        ?> '/>
                     </td>
                 </tr>
                 <tr>
                     <td>Password</td>
                     <td><span class="error"><?php echo $passErr; ?></span>
-                    <input type='password'  name='password' minlength="6" class='form-control' />
+                    <input type='password'  name='password' minlength="6" class='form-control' value='<?php if(isset($_POST['password'])){ echo $_POST['password'];} ?>'/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Confirm Password</td>
+                    <td><span class="error"><?php echo $passErr; ?></span>
+                    <input type='password'  name='confirm_password' minlength="6" class='form-control' value='<?php if(isset($_POST['password'])){
+                         echo $_POST['password'];} 
+                         ?>'/>
                     </td>
                 </tr>
                 <tr>
                     <td>First Name</td>
                     <td><span class="error"><?php echo $firErr; ?></span>
-                        <input type='text' name='first_name' class='form-control' />
+                        <input type='text' name='first_name' class='form-control' value='<?php 
+                       if(isset($_POST['first_name'])){
+                        echo $_POST['first_name'];
+                       } 
+                        ?> ' />
                     </td>
                 </tr>
                 <tr>
                     <td>Last Name</td>
                     <td><span class="error"><?php echo $lasErr; ?></span>
-                        <input type='text' name='last_name' class='form-control' />
+                        <input type='text' name='last_name' class='form-control'value='<?php
+                        if(isset($_POST['last_name'])){
+                        echo $_POST['last_name'];
+                       } 
+                        ?> ' />
                     </td>
                 </tr>
                 <tr>
                     <td>Gender</td>
                     <td><span class="error"><?php echo $genErr; ?></span>
-                    <input type='radio' id="gender" name='gender' value='male' />
+                    <input type='radio' id="gender" name='gender' value='male' <?php
+                    if(isset($_POST["gender"])){
+                       if($_POST['gender']== "male" ){
+                      echo "checked" ; 
+                    }  
+                    }?>/>
                     <label for="male">MALE</label><br>
-                    <input type='radio' id="gender" name='gender' value='female' />
+                    <input type='radio' id="gender" name='gender' value='female'  <?php
+                     if(isset($_POST["gender"])){
+                       if($_POST['gender']== "female" ){
+                      echo "checked" ;
+                    }   
+                    }?>/>
                     <label for="female">FEMALE</label><br>   
-                                            
-                        
-                     
-                    
+                       
                     </td>
                 </tr>
                 <tr>
                     <td>Date Of Birth</td>
                     <td><span class="error"><?php echo $dobErr; ?></span>
-                        <input type='date' name='date_of_birth' class='form-control' />
+                        <input type='date' name='date_of_birth' class='form-control' value='<?php 
+                       if(isset($_POST['date_of_birth'])){
+                        echo $_POST['date_of_birth'];
+                       }?>'/>
                     </td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>
                         <input type='submit' value='Save' class='btn btn-success' />
-                        <a href='index.php' class='btn btn-danger'>Back to home</a>
+                        <a href='customer_read.php' class='btn btn-danger'>Back to Read Customer</a>
                     </td>
                 </tr>
             </table>
