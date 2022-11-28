@@ -26,8 +26,9 @@
 
 <body>
     <?php
-    include 'menu.php'
-        ?>
+include 'menu.php';
+include 'session.php';
+?>
     <br>
     <!-- container -->
     <div class="container mt-5 p-5">

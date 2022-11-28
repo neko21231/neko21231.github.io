@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -110,6 +114,8 @@
             if ($password == md5($_POST['password'])) {
                 if ($status == 'Active') {
                     header("Location:http://localhost/webdev/neko/Home.php");
+                    $_SESSION['user'] = $_POST['username'];
+
                 } else {
                     $staErr = "Your Account is suspended *";
                 }

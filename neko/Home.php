@@ -16,9 +16,10 @@
         </div>
 
         <?php
-        include 'menu.php'
+        include 'menu.php';
+        include 'session.php';
+        ?>
 
-            ?>
 
         <section class="home py-5" id="home">
             <div class="container-lg py-4">

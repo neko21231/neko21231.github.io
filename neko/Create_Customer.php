@@ -21,8 +21,9 @@
 
 <body>
 
-<?php
-include 'menu.php'
+    <?php
+include 'menu.php';
+include 'session.php';
 ?>
 
     <!-- container -->
@@ -43,39 +44,39 @@ include 'menu.php'
             include 'config/databased.php';
             try {
 
-                
+
 
                 // posted values
                 if (empty($_POST["username"])) {
                     $nameErr = "UserName is required *";
                     $flag = true;
-                }else {
+                } else {
                     $username = htmlspecialchars(strip_tags($_POST['username']));
-                    }
-                   
-                        
-                
+                }
+
+
+
                 if (empty($_POST["password"])) {
                     $passErr = "Password is required *";
                     $flag = true;
                 } else {
                     $password = md5($_POST['password']);
-                    
-                       
+
+
                 }
                 if (empty($_POST["confirm_password"])) {
                     $passErr = "Please Confirm Your Password  *";
                     $flag = true;
-                }else if ($_POST["password"] == $_POST["confirm_password"]) {
+                } else if ($_POST["password"] == $_POST["confirm_password"]) {
                     // success!
-                 
+        
                     $password = md5($_POST['password']);
 
-                } else{
+                } else {
                     $passErr = "Please make sure your password are match.  *";
                     $flag = true;
                 }
-                
+
                 if (empty($_POST["first_name"])) {
                     $firErr = "First Name is required *";
                     $flag = true;
@@ -87,7 +88,7 @@ include 'menu.php'
                     $flag = true;
                 } else {
                     $last_name = htmlspecialchars(strip_tags($_POST['last_name']));
-                    
+
                 }
                 if (empty($_POST["gender"])) {
                     $genErr = "please choose a gender *";
@@ -100,18 +101,18 @@ include 'menu.php'
                     $flag = true;
                 } else {
                     $date_of_birth = ($_POST['date_of_birth']);
-                  
+
                 }
 
-                
 
-               
+
+
                 if ($flag == false) {
                     // insert query
                     $query = "INSERT INTO customer SET username=:username, password=:password,first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth , time_registration=:time_registration";
                     // prepare query for execution
                     $stmt = $con->prepare($query);
-                    
+
                     // bind the parameters
                     $stmt->bindParam(':username', $username);
                     $stmt->bindParam(':password', $password);
@@ -123,23 +124,23 @@ include 'menu.php'
                     $time_registration = date('Y-m-d H:i:s');
                     $stmt->bindParam(':time_registration', $time_registration);
                     // Execute the query
-
-                    if ($stmt-> execute()) {
+        
+                    if ($stmt->execute()) {
                         echo "<div class='alert alert-success'>Record was saved.</div>";
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                     }
                 } else {
-                   echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                    echo "<div class='alert alert-danger'>Unable to save record.</div>";
                 }
-                
+
             }
-                //show error
+            //show error
             catch (PDOException $exception) {
                 die('ERROR: ' . $exception->getMessage());
             }
-       }
-        
+        }
+
         ?>
 
         <!-- html form here where the product information will be entered -->
@@ -147,75 +148,83 @@ include 'menu.php'
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
-                    <td><span class="error"> <?php echo $nameErr; ?></span>
-                        <input type='text' name='username' minlength="6" class='form-control' value='<?php 
-                       if(isset($_POST['username'])){
-                        echo $_POST['username'];
-                       } 
-                        ?> '/>
+                    <td><span class="error">
+                            <?php echo $nameErr; ?>
+                        </span>
+                        <input type='text' name='username' minlength="6" class='form-control' value='<?php
+                        if (isset($_POST['username'])) {
+                            echo $_POST['username'];
+                        }
+                        ?> ' />
                     </td>
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><span class="error"><?php echo $passErr; ?></span>
-                    <input type='password'  name='password' minlength="6" class='form-control' value='<?php if(isset($_POST['password'])){ echo $_POST['password'];} ?>'/>
+                    <td><span class="error">
+                            <?php echo $passErr; ?>
+                        </span>
+                        <input type='password' name='password' minlength="6" class='form-control' value='<?php if (isset($_POST['password'])) {
+                            echo $_POST['password'];
+                        } ?>' />
                     </td>
                 </tr>
                 <tr>
                     <td>Confirm Password</td>
-                    <td><span class="error"><?php echo $passErr; ?></span>
-                    <input type='password'  name='confirm_password' minlength="6" class='form-control' value='<?php if(isset($_POST['password'])){
-                         echo $_POST['password'];} 
-                         ?>'/>
+                    <td><span class="error">
+                            <?php echo $passErr; ?>
+                        </span>
+                        <input type='password' name='confirm_password' minlength="6" class='form-control' value='<?php if (isset($_POST['password'])) {
+                            echo $_POST['password'];
+                        }
+                        ?>' />
                     </td>
                 </tr>
                 <tr>
                     <td>First Name</td>
-                    <td><span class="error"><?php echo $firErr; ?></span>
-                        <input type='text' name='first_name' class='form-control' value='<?php 
-                       if(isset($_POST['first_name'])){
-                        echo $_POST['first_name'];
-                       } 
+                    <td><span class="error">
+                            <?php echo $firErr; ?>
+                        </span>
+                        <input type='text' name='first_name' class='form-control' value='<?php
+                        if (isset($_POST['first_name'])) {
+                            echo $_POST['first_name'];
+                        }
                         ?> ' />
                     </td>
                 </tr>
                 <tr>
                     <td>Last Name</td>
-                    <td><span class="error"><?php echo $lasErr; ?></span>
-                        <input type='text' name='last_name' class='form-control'value='<?php
-                        if(isset($_POST['last_name'])){
-                        echo $_POST['last_name'];
-                       } 
-                        ?> ' />
+                    <td><span class="error">
+                            <?php echo $lasErr; ?>
+                        </span>
+                        <input type='text' name='last_name' class='form-control' value='<?php
+                        if (isset($_POST['last_name'])) {
+                            echo $_POST['last_name'];
+                        } ?>' />
                     </td>
                 </tr>
                 <tr>
                     <td>Gender</td>
-                    <td><span class="error"><?php echo $genErr; ?></span>
-                    <input type='radio' id="gender" name='gender' value='male' <?php
-                    if(isset($_POST["gender"])){
-                       if($_POST['gender']== "male" ){
-                      echo "checked" ; 
-                    }  
-                    }?>/>
-                    <label for="male">MALE</label><br>
-                    <input type='radio' id="gender" name='gender' value='female'  <?php
-                     if(isset($_POST["gender"])){
-                       if($_POST['gender']== "female" ){
-                      echo "checked" ;
-                    }   
-                    }?>/>
-                    <label for="female">FEMALE</label><br>   
-                       
+                    <td><span class="error">
+                            <?php echo $genErr; ?>
+                        </span>
+                        <input type='radio' id="gender" name='gender' value='male' <?php if (isset($_POST["gender"])) {
+                            if ($_POST['gender']=="male") { echo "checked"; } } ?>/>
+                        <label for="male">MALE</label><br>
+                        <input type='radio' id="gender" name='gender' value='female' <?php if (isset($_POST["gender"]))
+                            if ($_POST['gender']=="female") { echo "checked"; } ?>/>
+                        <label for="female">FEMALE</label><br>
+
                     </td>
                 </tr>
                 <tr>
                     <td>Date Of Birth</td>
-                    <td><span class="error"><?php echo $dobErr; ?></span>
-                        <input type='date' name='date_of_birth' class='form-control' value='<?php 
-                       if(isset($_POST['date_of_birth'])){
-                        echo $_POST['date_of_birth'];
-                       }?>'/>
+                    <td><span class="error">
+                            <?php echo $dobErr; ?>
+                        </span>
+                        <input type='date' name='date_of_birth' class='form-control' value='<?php
+                        if (isset($_POST['date_of_birth'])) {
+                            echo $_POST['date_of_birth'];
+                        } ?>' />
                     </td>
                 </tr>
                 <tr>

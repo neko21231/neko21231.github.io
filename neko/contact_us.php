@@ -16,8 +16,9 @@
         </div>
 
         <?php
-        include 'menu.php'
-            ?>
+        include 'menu.php';
+        include 'session.php';
+        ?>
         <div class="container-lg py-4">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
