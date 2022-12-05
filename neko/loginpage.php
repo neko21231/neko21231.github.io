@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 ?>
 
 <!DOCTYPE HTML>
@@ -82,7 +83,10 @@ session_start();
 
 <body class="text-center">
     <?php
-    $useErr = $pasErr = $staErr = "";
+
+    $useErr = $pasErr = $staErr = $actErr = "";
+
+
 
     if ($_POST) {
 
@@ -113,9 +117,8 @@ session_start();
 
             if ($password == md5($_POST['password'])) {
                 if ($status == 'Active') {
-                    header("Location:http://localhost/webdev/neko/Home.php");
                     $_SESSION['user'] = $_POST['username'];
-
+                    header("Location:http://localhost/webdev/neko/Home.php");
                 } else {
                     $staErr = "Your Account is suspended *";
                 }
@@ -125,7 +128,12 @@ session_start();
         } else {
             $useErr = "User not found *";
         }
+
     }
+    if (isset($_GET["action"])) {
+        $actErr = "access is denied * ";
+    }
+
     ?>
 
     <main class="form-signin">
@@ -137,6 +145,9 @@ session_start();
         </span>
         <span class="error">
             <?php echo $staErr; ?>
+        </span>
+        <span class="error">
+            <?php echo $actErr; ?>
         </span>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 

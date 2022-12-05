@@ -1,3 +1,6 @@
+<?php
+include 'session.php';
+?>
 <!DOCTYPE HTML>
 <html>
 
@@ -21,9 +24,8 @@
 
 <body>
     <?php
-include 'menu.php';
-include 'session.php';
-?>
+    include 'menu.php';
+    ?>
 
     < !-- container -->
         <div class="container mt-5 p-5">
@@ -43,7 +45,7 @@ include 'session.php';
             // read current record's data
             try {
                 // prepare select query
-                $query = "SELECT id, name, description, price FROM products WHERE id = ? LIMIT 0,1";
+                $query = "SELECT id, name, description, price ,promotion_price ,manufacture_date,expire_date FROM products WHERE id = ? LIMIT 0,1";
                 $stmt = $con->prepare($query);
 
                 // this is the first question mark
@@ -59,6 +61,10 @@ include 'session.php';
                 $name = $row['name'];
                 $description = $row['description'];
                 $price = $row['price'];
+                $promotion_price = $row['promotion_price'];
+                $manufacture_date = $row['manufacture_date'];
+                $expire_date = $row['expire_date'];
+
             }
 
             // show error
@@ -87,6 +93,24 @@ include 'session.php';
                     <td>Price</td>
                     <td>
                         <?php echo htmlspecialchars($price, ENT_QUOTES); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Promotion Price</td>
+                    <td>
+                        <?php echo htmlspecialchars($promotion_price, ENT_QUOTES); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Manufacture Date</td>
+                    <td>
+                        <?php echo htmlspecialchars($manufacture_date, ENT_QUOTES); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Expire Date</td>
+                    <td>
+                        <?php echo htmlspecialchars($expire_date, ENT_QUOTES); ?>
                     </td>
                 </tr>
                 <tr>

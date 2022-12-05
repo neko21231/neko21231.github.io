@@ -23,15 +23,20 @@
                     <li class="nav-item">
                         <a class="nav-link " aria-current="page" href="product_read.php">Product List</a>
                     </li>
-
                     <li class="nav-item">
-                        <a class="nav-link " href="contact_us.php">Contact Us</a>
+                        <a class="nav-link " href="order_create.php">Create Order</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="order_summary.php">Order Summary</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link " href="Create_Customer.php">Create Customer</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link " href="customer_read.php">Customer List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="contact_us.php">Contact Us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link " href="logout.php">Log Out</a>

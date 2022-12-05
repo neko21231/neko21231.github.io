@@ -10,7 +10,7 @@ include 'session.php';
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Read product details </title>
+    <title>Order details </title>
 
     <style>
         .error {
@@ -30,28 +30,26 @@ include 'session.php';
     < !-- container -->
         <div class="container mt-5 p-5">
             <div class="page-header text-center">
-                <h1>Read customer Detail </h1>
+                <h1>Order details </h1>
             </div>
 
             <!-- PHP read one record will be here -->
             <?php
-
+            // get passed parameter value, in this case, the record ID
+// isset() is a PHP function used to verify if a value is there or not
+            $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
 
             //include database connection
             include 'config/databased.php';
 
-            // get passed parameter value, in this case, the record ID
-// isset() is a PHP function used to verify if a value is there or not
-            $username = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Record username not found.');
-
             // read current record's data
             try {
                 // prepare select query
-                $query = "SELECT  username, gender, first_name,last_name,date_of_birth FROM customer WHERE username = ? LIMIT 0,1";
+                $query = "SELECT id, product_id, quantity,order_id ,price_each  FROM order_detail WHERE id = ? LIMIT 0,1";
                 $stmt = $con->prepare($query);
 
                 // this is the first question mark
-                $stmt->bindParam(1, $username);
+                $stmt->bindParam(1, $id);
 
                 // execute our query
                 $stmt->execute();
@@ -60,11 +58,11 @@ include 'session.php';
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 // values to fill up our form
-                $username = $row['username'];
-                $gender = $row['gender'];
-                $first_name = $row['first_name'];
-                $last_name = $row['last_name'];
-                $date_of_birth = $row['date_of_birth'];
+                $product_id = $row['product_id'];
+                $quantity = $row['quantity'];
+                $order_id = $row['order_id'];
+                $price_each = $row['price_each'];
+
 
             }
 
@@ -79,40 +77,40 @@ include 'session.php';
             <!--we have our html table here where the record will be displayed-->
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
-                    <td>Name</td>
+                    <td>ID</td>
                     <td>
-                        <?php echo htmlspecialchars($username, ENT_QUOTES); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Gender</td>
-                    <td>
-                        <?php echo htmlspecialchars($gender, ENT_QUOTES); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td>First Name</td>
-                    <td>
-                        <?php echo htmlspecialchars($first_name, ENT_QUOTES); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Last Name</td>
-                    <td>
-                        <?php echo htmlspecialchars($last_name, ENT_QUOTES); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Birthday</td>
-                    <td>
-                        <?php echo htmlspecialchars($date_of_birth, ENT_QUOTES); ?>
+                        <?php echo htmlspecialchars($id, ENT_QUOTES); ?>
                     </td>
                 </tr>
 
                 <tr>
+                    <td>product id</td>
+                    <td>
+                        <?php echo htmlspecialchars($product_id, ENT_QUOTES); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>quantity</td>
+                    <td>
+                        <?php echo htmlspecialchars($quantity, ENT_QUOTES); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>order_id</td>
+                    <td>
+                        <?php echo htmlspecialchars($order_id, ENT_QUOTES); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>price_each</td>
+                    <td>
+                        <?php echo htmlspecialchars($price_each, ENT_QUOTES); ?>
+                    </td>
+                </tr>
+                <tr>
                     <td></td>
                     <td>
-                        <a href='customer_read.php' class='btn btn-danger'>Back to read customer</a>
+                        <a href='order_summary.php' class='btn btn-danger'>Back to order order summary</a>
                     </td>
                 </tr>
             </table>

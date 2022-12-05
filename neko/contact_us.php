@@ -1,3 +1,6 @@
+<?php
+include 'session.php';
+?>
 <!DOCTYPE HTML>
 <html>
 
@@ -17,7 +20,7 @@
 
         <?php
         include 'menu.php';
-        include 'session.php';
+        ;
         ?>
         <div class="container-lg py-4">
             <div class="row justify-content-center">

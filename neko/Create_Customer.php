@@ -1,3 +1,6 @@
+<?php
+include 'session.php';
+?>
 <!DOCTYPE HTML>
 <html>
 
@@ -22,9 +25,8 @@
 <body>
 
     <?php
-include 'menu.php';
-include 'session.php';
-?>
+    include 'menu.php';
+    ?>
 
     <!-- container -->
     <div class="container mt-5 p-5">
@@ -208,10 +210,15 @@ include 'session.php';
                             <?php echo $genErr; ?>
                         </span>
                         <input type='radio' id="gender" name='gender' value='male' <?php if (isset($_POST["gender"])) {
-                            if ($_POST['gender']=="male") { echo "checked"; } } ?>/>
+                            if ($_POST['gender'] == "male") {
+                                echo "checked";
+                            }
+                        } ?>/>
                         <label for="male">MALE</label><br>
                         <input type='radio' id="gender" name='gender' value='female' <?php if (isset($_POST["gender"]))
-                            if ($_POST['gender']=="female") { echo "checked"; } ?>/>
+                            if ($_POST['gender'] == "female") {
+                                echo "checked";
+                            } ?>/>
                         <label for="female">FEMALE</label><br>
 
                     </td>
