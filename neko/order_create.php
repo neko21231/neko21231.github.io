@@ -22,16 +22,15 @@ include 'session.php';
 <body>
     <?php
     include 'menu.php';
-    include 'config/databased.php'; // include database connection
-    $useErr = $proErr = $quaErr = "";
-    $flag = false;
+
+
     ?>
 
     <!-- container -->
     <div class="container">
         <div class="row fluid bg-color justify-content-center">
             <div class="col-md-10">
-                <div class="page-header top_text mt-5 mb-3 text-warning">
+                <div class="page-header top_text mt-5 mb-3 ">
                     <h2>Create Order </h2>
                 </div>
 
@@ -39,11 +38,13 @@ include 'session.php';
                 <!-- PHP insert code will be here -->
 
                 <?php
+                include 'config/databased.php'; // include database connection
+                
                 // check if form was submitted
                 $useErr = $proErr = $quaErr = "";
                 $flag = false;
                 // link to create record form
-                echo "<a href='order_summary.php' class='btn btn-warning m-b-1em mb-3'>Order Summary</a>";
+                
 
                 if ($_POST) {
                     if (empty($_POST["username"])) {
@@ -55,75 +56,64 @@ include 'session.php';
 
                     //submit user fill in de product and quantity
                     $product_id = $_POST["product_id"];
+                    $value = array_count_values($product_id);
                     $quantity = $_POST["quantity"];
 
 
-                    if ($flag == false) {
-                        $total_amount = 0;
-
-
-                        for ($x = 0; $x < 3; $x++) {
-                            $query = "SELECT price, promotion_price FROM products WHERE id = :id";
-                            $stmt = $con->prepare($query);
-                            $stmt->bindParam(':id', $products[$x]);
-                            $stmt->execute();
-                            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                            if ($row['promotion_price'] == 0) {
-                                $price = $row['price'];
-                            } else {
-                                $price = $row['promotion_price'];
-                            }
-                            //combine prvious total_amount with new ones, loop (3 times)
-                            $total_amount = $total_amount + ((float) $price * (int) $quantity[$x]);
-                        }
-                        echo $total_amount;
-
-                        //send data to 'order_summary' table in myphp
-                        $order_date = date('Y-m-d');
-                        $query = "INSERT INTO order_summary SET username=:username, order_date=:order_date, total_amount=:total_amount";
-                        $stmt = $con->prepare($query);
-                        $stmt->bindParam(':username', $username);
-                        $order_date = date('Y-m-d');
-                        $stmt->bindParam(':order_date', $order_date);
-                        $stmt->bindParam(':total_amount', $total_amount);
-
-                        if ($stmt->execute()) {
-
-                            //if success > insert id
-                            $order_id = $con->lastInsertId();
-                            echo "<div class='alert alert-success'>Able to create order.</div>";
-
-                            for ($x = 0; $x < 3; $x++) {
-                                $query = "SELECT price, promotion_price FROM products WHERE id = :id";
-                                $stmt = $con->prepare($query);
-                                $stmt->bindParam(':id', $product[$x]);
-                                $stmt->execute();
-                                $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                                if ($row['promotion_price'] == 0) {
-                                    $price = $row['price'];
-                                } else {
-                                    $price = $row['promotion_price'];
-                                }
-                                $price_each = ((float) $price * (int) $quantity[$x]);
-
-                                //send data to 'order_details' table in myphp
-                                $query = "INSERT INTO order_detail SET product_id=:product_id, quantity=:quantity,order_id=:order_id, price_each=:price_each";
-                                $stmt = $con->prepare($query);
-                                //product & quantity is array, [0,1,2]
-                                $stmt->bindParam(':product_id', $product[$x]);
-                                $stmt->bindParam(':quantity', $quantity[$x]);
-                                $stmt->bindParam(':order_id', $order_id);
-                                $stmt->bindParam(':price_each', $price_each);
-                                $stmt->execute();
-                            }
-                        } else {
-                            echo "<div class='alert alert-danger'>Unable to create order.</div>";
-                        }
+                    if ($product_id[0] == "" && $product_id[1] == "" && $product_id[2] == "") {
+                        echo "<div class='alert alert-danger'>Please at least choose a product *</div>";
                     } else {
-                        echo "<div class='alert alert-danger'>Unable to create order.</div>";
+
+                        //if product != empty, quatity = empty
+                        if ((!empty($product_id[0]) && empty($quantity[0])) or (!empty($product_id[1]) && empty($quantity[1])) or (!empty($product_id[2]) && empty($quantity[2]))) {
+                            echo "<div class='alert alert-danger'>Please type the quantity of your product *</div>";
+                        } else {
+                            //error if more than 1 (duplicate)
+                            for ($x = 0; $x < count($product_id); $x++) {
+                                if (!empty($product_id[$x]) && !empty($quantity[$x])) {
+
+                                    if ($value[$product_id[$x]] == 1) {
+                                        if ($flag == false) {
+
+
+                                            //send data to 'order_summary' table in myphp
+                                            $order_date = date('Y-m-d');
+                                            $query = "INSERT INTO order_summary SET username=:username, order_date=:order_date";
+
+                                            $stmt = $con->prepare($query);
+                                            $stmt->bindParam(':username', $username);
+                                            $stmt->bindParam(':order_date', $order_date);
+
+                                            if ($stmt->execute()) {
+                                                echo "<div class='alert alert-success'>Create order successful.</div>";
+
+                                                $order_id = $con->lastInsertId();
+
+
+
+                                                //send data to 'order_detail' table in myphp
+                                                $query = "INSERT INTO order_detail SET product_id=:product_id, quantity=:quantity,order_id=:order_id";
+
+                                                $stmt = $con->prepare($query);
+                                                $stmt->bindParam(':product_id', $product_id[$x]);
+                                                $stmt->bindParam(':quantity', $quantity[$x]);
+                                                $stmt->bindParam(':order_id', $order_id);
+                                                $stmt->execute();
+                                            } else {
+                                                echo "<div class='alert alert-danger'>Unable to create order.</div>";
+                                            }
+                                        } else {
+                                            echo "<div class='alert alert-danger'>Unable to create order.</div>";
+                                        }
+                                    } else {
+                                        echo "<div class='alert alert-danger'>Please select different product.</div>";
+                                    }
+                                }
+                            }
+                        }
                     }
-                } ?>
+                }
+                ?>
 
 
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
@@ -143,7 +133,7 @@ include 'session.php';
                         </div>
 
                         <div class="col-6 mb-3 mt-2"><span class="error">
-                                <?php echo $useErr; ?>
+
                             </span>
                             <select class="form-select" name="username" aria-label="form-select-lg example">
                                 <option value='' selected>Choose Username</option>
@@ -162,16 +152,11 @@ include 'session.php';
                             </select>
                         </div>
 
-                        <span class="error">
-                            <?php echo $proErr; ?>
-                        </span>
-
-
                         <?php
                         //forloop, for 3 product
                         for ($x = 0; $x < 3; $x++) {
                             // select product
-                            $query = "SELECT id, name FROM products ORDER BY id DESC";
+                            $query = "SELECT id, name, price,promotion_price FROM products ORDER BY id DESC";
                             $stmt = $con->prepare($query);
                             $stmt->execute();
                             // this is how to get number of rows returned
@@ -185,15 +170,21 @@ include 'session.php';
                         <div class="col-3 mb-2 mt-2">
 
                             <select class="form-select" name="product_id[]" aria-label="form-select-lg example">
-                                <option selected>Choose Product</option>
+                                <option value="" selected>Choose your product </option>
 
                                 <?php if ($num > 0) {
                                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                     extract($row); ?>
                                 <option value="<?php echo $id; ?>">
                                     <?php echo htmlspecialchars($name, ENT_QUOTES);
-
-                                    ?>
+                                    if ($promotion_price == 0) {
+                                        echo " (RM$price)";
+                                    } else {
+                                        echo " (RM$promotion_price)";
+                                    } ?>
+                                    <?php if (isset($_POST['product_id[]'])) {
+                                        echo $_POST['product_id[]'];
+                                    } ?>
                                 </option>
                                 <?php }
                             }
@@ -201,24 +192,25 @@ include 'session.php';
 
                             </select>
                         </div>
+                        <div class="col-3 mb-2">
 
-                        <input class="col-1 mb-2 mt-2" type="number" id="quantity[]" name="quantity[]" min=1 />
+                            <input type='number' id='quantity[]' name='quantity[]' class='form-control' min=1 />
+                        </div>
+                        <?php } ?>
+
+
+                    </table>
+                    <input type="submit" class="btn btn-primary" />
+                </form>
+
+            </div> <!-- end .container -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+                crossorigin="anonymous"></script>
+            <!-- confirm delete record will be here -->
+            <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
+                <p>Copyrights &copy; 2022 Online Shop. All rights reserved.</p>
             </div>
-            <?php } ?>
-
-
-            </table>
-            <input type="submit" class="btn btn-primary" />
-            </form>
-
-        </div> <!-- end .container -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-            crossorigin="anonymous"></script>
-        <!-- confirm delete record will be here -->
-        <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-            <p>Copyrights &copy; 2022 Online Shop. All rights reserved.</p>
-        </div>
 </body>
 
 </html>

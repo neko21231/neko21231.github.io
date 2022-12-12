@@ -26,9 +26,7 @@
                     <li class="nav-item">
                         <a class="nav-link " href="order_create.php">Create Order</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="order_summary.php">Order Summary</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link " href="Create_Customer.php">Create Customer</a>
                     </li>
