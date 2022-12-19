@@ -52,9 +52,10 @@ include 'session.php';
                 } else {
                     $name = htmlspecialchars(strip_tags($_POST['name']));
                 }
-                if (empty($_POST["description"])) {
-                    $description = htmlspecialchars(strip_tags($_POST['description']));
-                }
+
+                $description = htmlspecialchars(strip_tags($_POST['description']));
+
+
                 if (empty($_POST["price"])) {
                     $priErr = "Price is required *";
                     $flag = true;
