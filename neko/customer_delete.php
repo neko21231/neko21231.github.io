@@ -32,7 +32,7 @@ try {
         if ($stmt->execute()) {
             header('Location:customer_read.php?action=deleted');
         } else {
-            die('Unable to delete record.');
+            die('Unable to delete customer.');
         }
     }
 

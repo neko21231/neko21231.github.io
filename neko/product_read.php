@@ -21,6 +21,14 @@ include 'session.php';
             display: flex;
             justify-content: space-evenly;
         }
+
+        .m-r-1em {
+            margin-right: 1em;
+        }
+
+        .m-b-1em {
+            margin-bottom: 1em;
+        }
     </style>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -53,9 +61,15 @@ include 'session.php';
         
         if ($action == 'deleted') {
 
-            echo "<div class='alert alert-success'>Record was deleted.</div>";
+            echo "<div class='alert alert-success'>Product was deleted.</div>";
 
         }
+        if ($action == 'successful') {
+
+            echo "<div class='alert alert-success'>Record was successful.</div>";
+
+        }
+
 
         // select all data
         $query = "SELECT id, name, description, price FROM products ORDER BY id DESC";
@@ -66,7 +80,7 @@ include 'session.php';
         $num = $stmt->rowCount();
 
         // link to create record form
-        echo "<a href='product_create.php' class='btn btn-primary m-b-1em'>Create New Product</a>";
+        echo "<a href='product_create.php' class='btn btn-primary mb-2'>Create New Product</a>";
 
         //check if more than 0 record found
         if ($num > 0) {
@@ -92,8 +106,7 @@ include 'session.php';
                 echo "<tr>";
                 echo "<td>{$id}</td>";
                 echo "<td>{$name}</td>";
-
-                echo "<td>{$price}</td>";
+                echo "<td class= \"text-end\" > RM" . number_format((float) $price, 2, '.', '') . "</td>";
                 echo "<td>";
                 // read one record
                 echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em '>Read</a>";
@@ -102,7 +115,7 @@ include 'session.php';
                 echo "<a href='product_update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger '>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -147,7 +160,7 @@ include 'session.php';
     </script>
 
     <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-        <p>Copyrights &copy; 2022 Online Shop. All rights reserved.</p>
+        <p>Copyrights &copy; 2022 Neko Online Shop. All rights reserved.</p>
     </div>
 </body>
 

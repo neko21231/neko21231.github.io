@@ -21,6 +21,14 @@ include 'session.php';
             display: flex;
             justify-content: space-evenly;
         }
+
+        .m-r-1em {
+            margin-right: 1em;
+        }
+
+        .m-b-1em {
+            margin-bottom: 1em;
+        }
     </style>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -51,7 +59,12 @@ include 'session.php';
         
         if ($action == 'deleted') {
 
-            echo "<div class='alert alert-success'>Record was deleted.</div>";
+            echo "<div class='alert alert-success'>Customer was deleted.</div>";
+
+        }
+        if ($action == 'successful') {
+
+            echo "<div class='alert alert-success'>Record was successful.</div>";
 
         }
         $query = "SELECT username, gender FROM customer ORDER BY username DESC";
@@ -96,7 +109,7 @@ include 'session.php';
                 echo "<a href='customer_update.php? username={$username}' class='btn btn-primary m-r-1em'>Edit</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_user({$username});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick=delete_user('{$username}')  class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -138,10 +151,12 @@ include 'session.php';
 
         }
 
+
+
     </script>
 
     <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-        <p>Copyrights &copy; 2022 Online Shop. All rights reserved.</p>
+        <p>Copyrights &copy; 2022 Neko Online Shop. All rights reserved.</p>
     </div>
 </body>
 

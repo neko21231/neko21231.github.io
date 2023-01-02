@@ -17,22 +17,15 @@
                     <li class=" nav-item">
                         <a class=" nav-link " href="Home.php?page=home">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="product_create.php">Create Product</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link " aria-current="page" href="product_read.php">Product List</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="order_create.php">Create Order</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link " href="order_read.php">Order List</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link " href="create_customer.php">Create Customer</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link " href="customer_read.php">Customer List</a>
                     </li>

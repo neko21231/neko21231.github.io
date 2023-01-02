@@ -124,7 +124,7 @@ include 'session.php';
 
         </div> <!-- end .container -->
         <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-            <p>Copyrights &copy; 2022 Online Shop. All rights reserved.</p>
+            <p>Copyrights &copy; 2022 Neko Online Shop. All rights reserved.</p>
         </div>
 </body>
 

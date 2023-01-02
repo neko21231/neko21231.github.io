@@ -21,6 +21,14 @@ include 'session.php';
             display: flex;
             justify-content: space-evenly;
         }
+
+        .m-r-1em {
+            margin-right: 1em;
+        }
+
+        .m-b-1em {
+            margin-bottom: 1em;
+        }
     </style>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -53,12 +61,20 @@ include 'session.php';
         
         if ($action == 'deleted') {
 
-            echo "<div class='alert alert-success'>Record was deleted.</div>";
+            echo "<div class='alert alert-success'>Order was deleted.</div>";
+
+        }
+        if ($action == 'successful') {
+
+            echo "<div class='alert alert-success'>Record was successful.</div>";
 
         }
 
         // select all data
-        $query = "SELECT order_id, username, order_date, total_amount FROM order_summary ORDER BY order_id DESC";
+        $query = "SELECT order_id, o.username,c.first_name,c.last_name ,order_date,total_amount 
+        FROM order_summary o
+        INNER JOIN customer c
+        ON o.username = c.username";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -78,6 +94,8 @@ include 'session.php';
             echo "<tr>";
             echo "<th>ID</th>";
             echo "<th>userame</th>";
+            echo "<th>first_name</th>";
+            echo "<th>last_name</th>";
             echo "<th>order_date</th>";
             echo "<th>total_amount</th>";
             echo "<th>Action</th>";
@@ -93,13 +111,17 @@ include 'session.php';
                 echo "<tr>";
                 echo "<td>{$order_id}</td>";
                 echo "<td>{$username}</td>";
+                echo "<td>{$first_name}</td>";
+                echo "<td>{$last_name}</td>";
                 echo "<td>{$order_date}</td>";
-                echo "<td>{$total_amount}</td>";
+
+                echo "<td class= \"text-end\" > RM" . number_format((float) $total_amount, 2, '.', '') . "</td>";
                 echo "<td>";
                 // read one record
                 echo "<a href='order_read_one.php?order_id={$order_id}' class='btn btn-info m-r-1em '>Read</a>";
 
-
+                // we will use this links on next part of this post
+                echo "<a href='order_update.php?order_id={$order_id}' class='btn btn-primary m-r-1em'>Edit</a>";
 
                 // we will use this links on next part of this post
                 echo "<a href='#' onclick='delete_user({$order_id});'  class='btn btn-danger'>Delete</a>";
@@ -147,7 +169,7 @@ include 'session.php';
     </script>
 
     <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-        <p>Copyrights &copy; 2022 Online Shop. All rights reserved.</p>
+        <p>Copyrights &copy; 2022 Neko Online Shop. All rights reserved.</p>
     </div>
 </body>
 

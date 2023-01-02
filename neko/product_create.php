@@ -62,32 +62,36 @@ include 'session.php';
                 } else {
                     $price = htmlspecialchars(strip_tags($_POST['price']));
                 }
-                if (($_POST["promotion_price"]) > ($_POST['price'])) {
+
+                if (empty($_POST["promotion_price"])) {
+                    $promotion_price = null;
+
+                } else if (($_POST["promotion_price"]) > ($_POST['price'])) {
                     $proErr = "Promotion price should be cheaper than original price *";
                     $flag = true;
                 } else {
                     $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
-
                 }
+
                 if (empty($_POST["manufacture_date"])) {
                     $manuErr = "Manufacture date is required *";
                     $flag = true;
                 } else {
                     $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
                 }
+
                 if (empty($_POST["expire_date"])) {
-                    $exErr = "Expired date is required *";
+                    $expire_date = null;
+
+                } else if (($_POST["expire_date"]) < ($_POST['manufacture_date'])) {
+                    $exErr = "Expired date should be later than manufacture date *";
                     $flag = true;
                 } else {
                     $expire_date = htmlspecialchars(strip_tags($_POST['expire_date']));
-                    if (($_POST["expire_date"]) < ($_POST['manufacture_date'])) {
-                        $exErr = "Expired date should be later than manufacture date *";
-                        $flag = true;
-                    }
                 }
-
                 if ($flag == false) {
                     // insert query
+        
                     $query = "INSERT INTO products SET name=:name, description=:description, price=:price, created=:created, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expire_date=:expire_date";
                     // prepare query for execution
                     $stmt = $con->prepare($query);
@@ -104,10 +108,12 @@ include 'session.php';
                     // Execute the query
         
                     if ($stmt->execute()) {
-                        echo "<div class='alert alert-success'>Record was saved.</div>";
+                        header("Location:product_read.php?action=successful");
+
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                     }
+
                 } else {
                     echo "<div class='alert alert-danger'>Unable to save record.</div>";
                 }
@@ -155,7 +161,7 @@ include 'session.php';
                         if (isset($_POST['price'])) {
                             echo $_POST['price'];
                         }
-                        ?> ' />
+                        ?>' />
                     </td>
                 </tr>
                 <tr>
@@ -166,8 +172,7 @@ include 'session.php';
                         <input type='text' name='promotion_price' class='form-control' value='<?php
                         if (isset($_POST['promotion_price'])) {
                             echo $_POST['promotion_price'];
-                        }
-                        ?> ' />
+                        } ?>' />
                     </td>
                 </tr>
                 <tr>
@@ -207,7 +212,7 @@ include 'session.php';
     <!-- end .container -->
 
     <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-        <p>Copyrights &copy; 2022 Online Shop. All rights reserved.</p>
+        <p>Copyrights &copy; 2022 Neko Online Shop. All rights reserved.</p>
     </div>
 
 </body>

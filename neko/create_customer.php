@@ -26,6 +26,7 @@ include 'session.php';
 
     <?php
     include 'menu.php';
+    date_default_timezone_set("Asia/Kuala_Lumpur");
     ?>
 
     <!-- container -->
@@ -98,12 +99,22 @@ include 'session.php';
                 } else {
                     $gender = htmlspecialchars(strip_tags($_POST['gender']));
                 }
+
                 if (empty($_POST["date_of_birth"])) {
                     $dobErr = "date of birth is required *";
                     $flag = true;
                 } else {
                     $date_of_birth = ($_POST['date_of_birth']);
+                    $date2 = date("Y-m-d");
+                    //strtotime = text -> date format
+                    $diff = (strtotime($date2) - strtotime($date_of_birth));
+                    $years = floor($diff / (365 * 60 * 60 * 24));
 
+                    //must be 18yrold and above, if not: 
+                    if ($years < 18) {
+                        $dobErr = "You have to be 18 years old and above.*";
+                        $flag = true;
+                    }
                 }
 
 
@@ -123,12 +134,13 @@ include 'session.php';
                     $stmt->bindParam(':gender', $gender);
                     $stmt->bindParam(':date_of_birth', $date_of_birth);
                     // specify when this record was inserted to the database
+        
                     $time_registration = date('Y-m-d H:i:s');
                     $stmt->bindParam(':time_registration', $time_registration);
                     // Execute the query
         
                     if ($stmt->execute()) {
-                        echo "<div class='alert alert-success'>Record was saved.</div>";
+                        header("Location:customer_read.php?action=successful");
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                     }
@@ -153,11 +165,10 @@ include 'session.php';
                     <td><span class="error">
                             <?php echo $nameErr; ?>
                         </span>
-                        <input type='text' name='username' minlength="6" class='form-control' value='<?php
-                        if (isset($_POST['username'])) {
-                            echo $_POST['username'];
-                        }
-                        ?> ' />
+                        <input type='text' name='username' minlength="6" class='form-control' value='<?php if (isset($_POST['username'])) {
+                        echo $_POST['username'];
+                    }
+                    ?>' />
                     </td>
                 </tr>
                 <tr>
@@ -166,8 +177,8 @@ include 'session.php';
                             <?php echo $passErr; ?>
                         </span>
                         <input type='password' name='password' minlength="6" class='form-control' value='<?php if (isset($_POST['password'])) {
-                            echo $_POST['password'];
-                        } ?>' />
+                        echo $_POST['password'];
+                    } ?>' />
                     </td>
                 </tr>
                 <tr>
@@ -176,9 +187,9 @@ include 'session.php';
                             <?php echo $passErr; ?>
                         </span>
                         <input type='password' name='confirm_password' minlength="6" class='form-control' value='<?php if (isset($_POST['password'])) {
-                            echo $_POST['password'];
-                        }
-                        ?>' />
+                        echo $_POST['password'];
+                    }
+                    ?>' />
                     </td>
                 </tr>
                 <tr>
@@ -190,7 +201,7 @@ include 'session.php';
                         if (isset($_POST['first_name'])) {
                             echo $_POST['first_name'];
                         }
-                        ?> ' />
+                        ?>' />
                     </td>
                 </tr>
                 <tr>
@@ -210,15 +221,15 @@ include 'session.php';
                             <?php echo $genErr; ?>
                         </span>
                         <input type='radio' id="gender" name='gender' value='male' <?php if (isset($_POST["gender"])) {
-                            if ($_POST['gender'] == "male") {
-                                echo "checked";
-                            }
-                        } ?>/>
+                        if ($_POST['gender'] == "male") {
+                            echo "checked";
+                        }
+                    } ?> />
                         <label for="male">MALE</label><br>
                         <input type='radio' id="gender" name='gender' value='female' <?php if (isset($_POST["gender"]))
-                            if ($_POST['gender'] == "female") {
-                                echo "checked";
-                            } ?>/>
+                        if ($_POST['gender'] == "female") {
+                            echo "checked";
+                        } ?> />
                         <label for="female">FEMALE</label><br>
 
                     </td>
@@ -249,7 +260,7 @@ include 'session.php';
     <!-- end .container -->
 
     <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-        <p>Copyrights &copy; 2022 Online Shop. All rights reserved.</p>
+        <p>Copyrights &copy; 2022 Neko Online Shop. All rights reserved.</p>
     </div>
 
 </body>

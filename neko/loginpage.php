@@ -115,6 +115,7 @@ session_start();
             $password = $row['password'];
             $status = $row['status'];
 
+
             if ($password == md5($_POST['password'])) {
                 if ($status == 'Active') {
                     $_SESSION['user'] = $_POST['username'];
@@ -125,35 +126,45 @@ session_start();
             } else {
                 $pasErr = "Incorrect Password*";
             }
+            if (empty($_POST['password'])) {
+                $pasErr = "Password is required* ";
+            }
+
         } else {
-            $useErr = "User not found *";
+            $useErr = "Username not found *";
         }
+        if (empty($_POST['username'])) {
+            $useErr = "Username & password is required* ";
+        }
+
+
 
     }
     if (isset($_GET["action"])) {
         $actErr = "access is denied * ";
     }
 
+
     ?>
 
     <main class="form-signin">
-        <span class="error">
-            <?php echo $useErr; ?>
-        </span>
-        <span class="error">
-            <?php echo $pasErr; ?>
-        </span>
-        <span class="error">
-            <?php echo $staErr; ?>
-        </span>
-        <span class="error">
-            <?php echo $actErr; ?>
-        </span>
+
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
             <img class="mb-4" src="image/IMG_20220107_162438_674.jpg" width="72" height="auto">
             <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-
+            <span class="error">
+                <?php echo $useErr; ?>
+            </span>
+            <span class="error">
+                <?php echo $pasErr; ?>
+            </span>
+            <span class="error">
+                <?php echo $staErr; ?>
+            </span>
+            <span class="error">
+                <?php echo $actErr; ?>
+            </span>
             <div class="form-floating ">
                 <input type="text" class="form-control" name="username" value='<?php if (isset($_POST['username'])) {
                     echo $_POST['username'];
@@ -174,7 +185,7 @@ session_start();
 
             </div>
             <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-            <p class="mt-5 mb-3 text-muted">&copy; 2022 Online Shop. All rights reserved.</p>
+            <p class="mt-5 mb-3 text-muted">&copy; 2022 Neko Online Shop. All rights reserved.</p>
 
         </form>
     </main>
