@@ -5,7 +5,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title> Create a Record </title>
+    <title>Customer List </title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
 
     <meta charset="utf-8">
@@ -61,13 +61,15 @@ include 'session.php';
 
             echo "<div class='alert alert-success'>Customer was deleted.</div>";
 
+        } else if ($action == 'failed') {
+            echo "<div class='alert alert-danger'>Customer is unable to delete because user has an order.</div>";
         }
         if ($action == 'successful') {
 
-            echo "<div class='alert alert-success'>Record was successful.</div>";
+            echo "<div class='alert alert-success'>successful!</div>";
 
         }
-        $query = "SELECT username, gender FROM customer ORDER BY username DESC";
+        $query = "SELECT username,first_name, gender,date_of_birth FROM customer ORDER BY username DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -86,7 +88,9 @@ include 'session.php';
             //creating our table heading
             echo "<tr>";
             echo "<th>username</th>";
+            echo "<th>name</th>";
             echo "<th>gender</th>";
+            echo "<th>date of birth</th>";
             echo "<th>Action</th>";
             echo "</tr>";
 
@@ -100,7 +104,9 @@ include 'session.php';
                 echo "<tr>";
 
                 echo "<td>{$username}</td>";
+                echo "<td>{$first_name}</td>";
                 echo "<td>{$gender}</td>";
+                echo "<td>{$date_of_birth}</td>";
                 echo "<td>";
                 // read one record
                 echo "<a href='customer_read_one.php?username={$username}' class='btn btn-info m-r-1em '>Read</a>";
@@ -155,9 +161,10 @@ include 'session.php';
 
     </script>
 
-    <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-        <p>Copyrights &copy; 2022 Neko Online Shop. All rights reserved.</p>
-    </div>
+    <?php
+    include 'copyright.php';
+
+    ?>
 </body>
 
 </html>

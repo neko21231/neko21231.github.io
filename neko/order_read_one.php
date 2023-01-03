@@ -5,7 +5,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title> Create a Record </title>
+    <title> Order Details </title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
 
     <meta charset="utf-8">
@@ -115,26 +115,26 @@ include 'session.php';
                 if ($num > 0) {
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                         extract($row); ?>
-                <tr>
+                        <tr>
 
-                    <td>
-                        <?php echo htmlspecialchars($product_name = $row['name'], ENT_QUOTES); ?>
-                    </td>
-                    <td class=text-center>
-                        <?php echo htmlspecialchars($quantity, ENT_QUOTES); ?>
-                    </td>
-                    <td class=text-end>
+                            <td>
+                                <?php echo htmlspecialchars($product_name = $row['name'], ENT_QUOTES); ?>
+                            </td>
+                            <td class=text-center>
+                                <?php echo htmlspecialchars($quantity, ENT_QUOTES); ?>
+                            </td>
+                            <td class=text-end>
 
-                        <?php echo "RM" . number_format((float) $price, 2, '.', ''); ?>
+                                <?php echo "RM" . number_format((float) $price, 2, '.', ''); ?>
 
-                    </td>
-                    <td class=text-end>
+                            </td>
+                            <td class=text-end>
 
-                        <?php echo "RM" . number_format((float) $price_each, 2, '.', ''); ?>
+                                <?php echo "RM" . number_format((float) $price_each, 2, '.', ''); ?>
 
-                    </td>
-                </tr>
-                <?php }
+                            </td>
+                        </tr>
+                        <?php }
 
                     echo "<b> Order ID:</b> $order_id <br>";
                     echo "<b> Customer Name:</b> $first_name $last_name <br>";
@@ -165,9 +165,10 @@ include 'session.php';
         </div>
 
     </div> <!-- end .container -->
-    <!--  <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-        <p>Copyrights &copy; 2022 Online Shop. All rights reserved.</p>
-    </div> -->
+    <?php
+    include 'copyright.php';
+
+    ?>
 </body>
 
 </html>

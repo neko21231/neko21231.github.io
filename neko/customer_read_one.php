@@ -5,7 +5,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title> Create a Record </title>
+    <title> Customer Details </title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
 
     <meta charset="utf-8">
@@ -47,7 +47,7 @@ include 'session.php';
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT  username, gender, first_name,last_name,date_of_birth FROM customer WHERE username = ? LIMIT 0,1";
+            $query = "SELECT  username, gender, first_name,last_name,date_of_birth,time_registration FROM customer WHERE username = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -65,6 +65,7 @@ include 'session.php';
             $first_name = $row['first_name'];
             $last_name = $row['last_name'];
             $date_of_birth = $row['date_of_birth'];
+            $time_registration = $row['time_registration'];
 
         }
 
@@ -108,6 +109,12 @@ include 'session.php';
                     <?php echo htmlspecialchars($date_of_birth, ENT_QUOTES); ?>
                 </td>
             </tr>
+            <tr>
+                <td>time registration</td>
+                <td>
+                    <?php echo htmlspecialchars($time_registration, ENT_QUOTES); ?>
+                </td>
+            </tr>
 
             <tr>
                 <td></td>
@@ -120,9 +127,10 @@ include 'session.php';
 
     </div>
     <!-- end .container -->
-    <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-        <p>Copyrights &copy; 2022 Neko Online Shop. All rights reserved.</p>
-    </div>
+    <?php
+    include 'copyright.php';
+
+    ?>
 
 </body>
 

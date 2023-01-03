@@ -5,7 +5,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title>PDO - Read Records - PHP CRUD Tutorial</title>
+    <title>Customer Update</title>
     <!-- Latest compiled and minified Bootstrap CSS →-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -160,7 +160,7 @@ include 'session.php';
 
                             // Execute the query
                             if ($stmt->execute()) {
-                                echo "<div class='alert alert-success'>Record was updated.</div>";
+                                header("Location:customer_read.php?action=successful");
                             } else {
                                 echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
                             }
@@ -179,7 +179,14 @@ include 'session.php';
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?username={$username}"); ?>"
                     method="post">
                     <table class='table table-hover table-responsive table-bordered'>
-
+                        <tr>
+                            <td>User Name</td>
+                            <td>
+                                <?php
+                                echo $username;
+                                ?>
+                            </td>
+                        </tr>
                         <tr>
                             <td>Old Password</td>
                             <td><input type='password' name='old_password' class='form-control' value='<?php
@@ -219,10 +226,12 @@ include 'session.php';
                         <tr>
                             <td>Gender</td>
                             <td><input type='radio' id="gender" name='gender' value='male' <?php if ($gender == 'male') {
-                                    echo "checked"; } ?> /> <label for='male'>Male</label>
+                            echo "checked";
+                        } ?> /> <label for='male'>Male</label>
 
                                 <input type='radio' id="gender" name='gender' value='female' <?php if
-                                ($gender == 'female') { echo "checked";
+                                ($gender == 'female') {
+                                    echo "checked";
                                 } ?> /> <label for='female'>Female</label>
 
                             </td>

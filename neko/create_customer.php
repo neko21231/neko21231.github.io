@@ -5,7 +5,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title> Create a Record </title>
+    <title> Create Customer </title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
 
     <meta charset="utf-8">
@@ -259,10 +259,10 @@ include 'session.php';
     </div>
     <!-- end .container -->
 
-    <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-        <p>Copyrights &copy; 2022 Neko Online Shop. All rights reserved.</p>
-    </div>
+    <?php
+    include 'copyright.php';
 
+    ?>
 </body>
 
 

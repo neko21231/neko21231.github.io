@@ -8,7 +8,7 @@
         <div class="offcanvas offcanvas-end text-bg-info " tabindex="-1" id="offcanvasDarkNavbar"
             aria-labelledby="offcanvasDarkNavbarLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">neko Shop</h5>
+                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Neko Soft Serve</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                     aria-label="Close"></button>
             </div>

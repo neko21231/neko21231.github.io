@@ -6,10 +6,11 @@ include 'session.php';
 <html>
 
 <head>
-    <title>PDO - Create a Record - PHP CRUD Tutorial</title>
+    <title>Home</title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
 </head>
 
 <body>
@@ -134,7 +135,7 @@ include 'session.php';
                             echo "<br>";
                             echo "Name: " . $first_name . ' ' . $last_name;
                             echo "<br>";
-                            echo "Total Amount: " . "<b>RM </b>" . "<b>$total_amount </b>";
+                            echo "Total Amount: " . " <b> RM" . number_format((float) $total_amount, 2, '.', '') . "</b>";
                             ?>
                         </p>
                     </div>
@@ -165,7 +166,7 @@ include 'session.php';
 
                             echo "Name: " . $first_name . ' ' . $last_name;
                             echo "<br>";
-                            echo "Total Amount: " . "<b>RM </b>" . "<b>$total_amount </b>";
+                            echo "Total Amount: " . " <b> RM" . number_format((float) $total_amount, 2, '.', '') . "</b>";
                             echo "<br>";
                             echo "Transaction Date: " . $order_date;
 
@@ -198,7 +199,7 @@ include 'session.php';
                                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                     extract($row);
 
-                                    echo $productname . ' ' . "<b>$total_quantity </b>" . "<br>";
+                                    echo $productname . ', ' . "<b>$total_quantity </b>" . "<br>";
                                 }
                             }
                             ?>
@@ -226,8 +227,7 @@ include 'session.php';
                                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                     extract($row);
 
-                                    echo "Product ID: " . "<b>$id</b>";
-                                    echo "<br>";
+
                                     echo "Product Name: " . $name;
                                     echo "<br>";
                                 }
@@ -246,9 +246,10 @@ include 'session.php';
             integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
             crossorigin="anonymous"></script>
 
-        <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-            <p>Copyrights &copy; 2022 Neko Online Shop. All rights reserved.</p>
-        </div>
+        <?php
+        include 'copyright.php';
+
+        ?>
 </body>
 
 </html>

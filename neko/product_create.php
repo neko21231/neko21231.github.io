@@ -5,7 +5,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title> Create a Record </title>
+    <title> Create a Product</title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
 
     <meta charset="utf-8">
@@ -66,11 +66,11 @@ include 'session.php';
                 if (empty($_POST["promotion_price"])) {
                     $promotion_price = null;
 
-                } else if (($_POST["promotion_price"]) > ($_POST['price'])) {
+                } else if (($_POST["promotion_price"]) > ($_POST["price"])) {
                     $proErr = "Promotion price should be cheaper than original price *";
                     $flag = true;
                 } else {
-                    $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
+                    $promotion_price = htmlspecialchars(strip_tags($_POST["promotion_price"]));
                 }
 
                 if (empty($_POST["manufacture_date"])) {
@@ -81,7 +81,7 @@ include 'session.php';
                 }
 
                 if (empty($_POST["expire_date"])) {
-                    $expire_date = null;
+                    $expire_date = "-";
 
                 } else if (($_POST["expire_date"]) < ($_POST['manufacture_date'])) {
                     $exErr = "Expired date should be later than manufacture date *";
@@ -211,9 +211,10 @@ include 'session.php';
     </div>
     <!-- end .container -->
 
-    <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-        <p>Copyrights &copy; 2022 Neko Online Shop. All rights reserved.</p>
-    </div>
+    <?php
+    include 'copyright.php';
+
+    ?>
 
 </body>
 

@@ -5,7 +5,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title> Create a Record </title>
+    <title> Product Details </title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
 
     <meta charset="utf-8">
@@ -92,13 +92,19 @@ include 'session.php';
                 <tr>
                     <td>Price</td>
                     <td>
-                        <?php echo htmlspecialchars($price, ENT_QUOTES); ?>
+                        <?php echo " RM" . number_format((float) $price, 2, '.', '') ?>
                     </td>
                 </tr>
                 <tr>
                     <td>Promotion Price</td>
                     <td>
-                        <?php echo htmlspecialchars($promotion_price, ENT_QUOTES); ?>
+
+                        <?php
+                        if ($promotion_price == null) {
+                            echo "-";
+                        } else {
+                            echo " RM" . number_format((float) $promotion_price, 2, '.', '');
+                        } ?>
                     </td>
                 </tr>
                 <tr>
@@ -110,7 +116,12 @@ include 'session.php';
                 <tr>
                     <td>Expire Date</td>
                     <td>
-                        <?php echo htmlspecialchars($expire_date, ENT_QUOTES); ?>
+                        <?php if ($expire_date == null) {
+                        echo "-";
+                    } else {
+                        echo htmlspecialchars($expire_date, ENT_QUOTES);
+                    }
+                    ?>
                     </td>
                 </tr>
                 <tr>
@@ -123,9 +134,10 @@ include 'session.php';
 
 
         </div> <!-- end .container -->
-        <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-            <p>Copyrights &copy; 2022 Neko Online Shop. All rights reserved.</p>
-        </div>
+        <?php
+        include 'copyright.php';
+
+        ?>
 </body>
 
 </html>

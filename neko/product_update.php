@@ -5,7 +5,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title>PDO - Read Records - PHP CRUD Tutorial</title>
+    <title>Update Product</title>
     <!-- Latest compiled and minified Bootstrap CSS →-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -103,7 +103,10 @@ include 'session.php';
                 $name = htmlspecialchars(strip_tags($_POST['name']));
                 $description = htmlspecialchars(strip_tags($_POST['description']));
                 $price = htmlspecialchars(strip_tags($_POST['price']));
+
                 $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
+
+
                 $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
                 $expire_date = htmlspecialchars(strip_tags($_POST['expire_date']));
 
@@ -115,9 +118,21 @@ include 'session.php';
                 $stmt->bindParam(':manufacture_date', $manufacture_date);
                 $stmt->bindParam(':expire_date', $expire_date);
                 $stmt->bindParam(':id', $id);
+
+                if (empty($promotion_price)) {
+                    $promotion_price = NULL;
+                } else if (($_POST["promotion_price"]) > ($_POST["price"])) {
+                    $proErr = "Promotion price should be cheaper than original price *";
+                }
+                if (empty($expire_date)) {
+                    $expire_date = NULL;
+                } else if (($_POST["expire_date"]) < ($_POST["manufacture_date"])) {
+                    $proErr = "Promotion price should be cheaper than original price *";
+
+                }
                 // Execute the query
                 if ($stmt->execute()) {
-                    echo "<div class='alert alert-success'>Record was updated.</div>";
+                    header("Location:product_read.php?action=successful");
                 } else {
                     echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
                 }
@@ -154,9 +169,13 @@ include 'session.php';
                 <tr>
                     <td>Promotion Price</td>
                     <td>
-                        <input type='text' name='promotion_price'
-                            value="<?php echo htmlspecialchars($promotion_price, ENT_QUOTES); ?>"
-                            class='form-control' />
+                        <input type='text' name='promotion_price' value="<?php
+                        if (empty($promotion_price)) {
+                            echo "-";
+                        } else {
+                            echo htmlspecialchars($promotion_price, ENT_QUOTES);
+                        }
+                        ?>" class='form-control' />
                     </td>
                 </tr>
 
@@ -172,8 +191,12 @@ include 'session.php';
                 <tr>
                     <td>Expire Date</td>
                     <td>
-                        <input type='date' name='expire_date'
-                            value="<?php echo htmlspecialchars($expire_date, ENT_QUOTES); ?>" class='form-control' />
+                        <input type='date' name='expire_date' value="<?php
+                        if (empty($expire_date)) {
+                            echo "-";
+                        } else {
+                            echo htmlspecialchars($expire_date, ENT_QUOTES);
+                        } ?>" class='form-control' />
                     </td>
                 </tr>
 
@@ -189,6 +212,10 @@ include 'session.php';
 
     </div>
     <!-- end .container -->
+    <?php
+    include 'copyright.php';
+
+    ?>
 </body>
 
 </html>

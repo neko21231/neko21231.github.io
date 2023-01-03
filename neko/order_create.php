@@ -198,10 +198,10 @@ include 'session.php';
                                 if ($num > 0) {
                                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                         extract($row); ?>
-                                <option value="<?php echo $username; ?>">
-                                    <?php echo htmlspecialchars($username, ENT_QUOTES); ?>
-                                </option>
-                                <?php }
+                                        <option value="<?php echo $username; ?>">
+                                            <?php echo htmlspecialchars($username, ENT_QUOTES); ?>
+                                        </option>
+                                        <?php }
                                 }
                                 ?>
 
@@ -236,20 +236,20 @@ include 'session.php';
                                         <option value='' selected>Choose your product </option>
 
                                         <?php if ($num > 0) {
-                                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                                extract($row); ?>
-                                        <option value="<?php echo $id; ?>">
-                                            <?php echo htmlspecialchars($name, ENT_QUOTES);
-                                                if ($promotion_price == 0) {
-                                                    echo " (RM$price)";
-                                                } else {
-                                                    echo " (RM$promotion_price)";
-                                                } ?>
+                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                            extract($row); ?>
+                                                <option value="<?php echo $id; ?>">
+                                                    <?php echo htmlspecialchars($name, ENT_QUOTES);
+                                                    if ($promotion_price == 0) {
+                                                        echo " (RM$price)";
+                                                    } else {
+                                                        echo " (RM$promotion_price)";
+                                                    } ?>
 
-                                        </option>
-                                        <?php }
-                                        }
-                                        ?>
+                                                </option>
+                                                <?php }
+                                    }
+                                    ?>
 
                                     </select>
 
@@ -298,9 +298,10 @@ include 'session.php';
             <!-- confirm delete record will be here -->
 
 
-            <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-                <p>Copyrights &copy; 2022 Neko Online Shop. All rights reserved.</p>
-            </div>
+            <?php
+            include 'copyright.php';
+
+            ?>
 </body>
 
 </html>

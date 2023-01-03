@@ -5,7 +5,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title> Create a Record </title>
+    <title> Order List </title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
 
     <meta charset="utf-8">
@@ -66,7 +66,7 @@ include 'session.php';
         }
         if ($action == 'successful') {
 
-            echo "<div class='alert alert-success'>Record was successful.</div>";
+            echo "<div class='alert alert-success'> success! </div>";
 
         }
 
@@ -93,11 +93,11 @@ include 'session.php';
             //creating our table heading
             echo "<tr>";
             echo "<th>ID</th>";
-            echo "<th>userame</th>";
-            echo "<th>first_name</th>";
-            echo "<th>last_name</th>";
-            echo "<th>order_date</th>";
-            echo "<th>total_amount</th>";
+            echo "<th>User Name</th>";
+            echo "<th>First Name</th>";
+            echo "<th>Last Name</th>";
+            echo "<th>Order Date</th>";
+            echo "<th>Total Amount</th>";
             echo "<th>Action</th>";
             echo "</tr>";
 
@@ -168,9 +168,10 @@ include 'session.php';
 
     </script>
 
-    <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-        <p>Copyrights &copy; 2022 Neko Online Shop. All rights reserved.</p>
-    </div>
+    <?php
+    include 'copyright.php';
+
+    ?>
 </body>
 
 </html>

@@ -5,7 +5,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title> Create a Record </title>
+    <title> Product List </title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
 
     <meta charset="utf-8">
@@ -66,13 +66,13 @@ include 'session.php';
         }
         if ($action == 'successful') {
 
-            echo "<div class='alert alert-success'>Record was successful.</div>";
+            echo "<div class='alert alert-success'>success !</div>";
 
         }
 
 
         // select all data
-        $query = "SELECT id, name, description, price FROM products ORDER BY id DESC";
+        $query = "SELECT id, name, description, price, promotion_price FROM products ORDER BY id DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -93,6 +93,7 @@ include 'session.php';
             echo "<th>ID</th>";
             echo "<th>Name</th>";
             echo "<th>Price</th>";
+            echo "<th>Promotion Price</th>";
             echo "<th>Action</th>";
             echo "</tr>";
 
@@ -107,7 +108,14 @@ include 'session.php';
                 echo "<td>{$id}</td>";
                 echo "<td>{$name}</td>";
                 echo "<td class= \"text-end\" > RM" . number_format((float) $price, 2, '.', '') . "</td>";
+                if (empty($promotion_price)) {
+                    echo "<td class= \"text-end\">-</td>";
+                } else {
+                    echo "<td class= \"text-end\" > RM" . number_format((float) $promotion_price, 2, '.', '') . "</td>";
+                }
+
                 echo "<td>";
+
                 // read one record
                 echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em '>Read</a>";
 
@@ -117,6 +125,7 @@ include 'session.php';
                 // we will use this links on next part of this post
                 echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger '>Delete</a>";
                 echo "</td>";
+
                 echo "</tr>";
             }
 
@@ -159,9 +168,10 @@ include 'session.php';
 
     </script>
 
-    <div class="container-fluid p-1 pt-3 bg-info text-white text-center">
-        <p>Copyrights &copy; 2022 Neko Online Shop. All rights reserved.</p>
-    </div>
+    <?php
+    include 'copyright.php';
+
+    ?>
 </body>
 
 </html>
